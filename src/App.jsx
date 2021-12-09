@@ -24,7 +24,7 @@ import IndexInscripciones from 'pages/inscripciones';
 // import PrivateRoute from 'components/PrivateRoute';
 
 const httpLink = createHttpLink({
-  uri: "https://smartdevs-back.herokuapp.com/graphql"
+  uri: "https://smartdevs-backend.herokuapp.com/graphql"
 });
 
 const authLink = setContext((_, { headers }) => {
