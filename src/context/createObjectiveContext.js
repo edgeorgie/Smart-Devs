@@ -1,7 +1,7 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
 
-export const CreateObjectiveContext = createContext(null);
+export const ObjContext = createContext(null);
 
-export const useCreateObjective = () => {
-  return useContext(CreateObjectiveContext);
+export const useObj = () => {
+  return useContext(ObjContext);
 };
