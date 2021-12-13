@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 const GET_USUARIOS = gql`
-  query Usuarios($filtro: FiltroUsuarios) {
+  query Query($filtro: FiltroUsuarios) {
     Usuarios(filtro: $filtro) {
       _id
       nombre
@@ -24,6 +24,7 @@ const GET_USUARIO = gql`
       estado
       identificacion
       rol
+      foto
     }
   }
 `;
