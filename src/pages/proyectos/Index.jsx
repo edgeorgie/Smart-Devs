@@ -161,7 +161,7 @@ const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
   useEffect(() => {
     if (data) {
       console.log(data);
-      toast.success('inscripcion creada con exito');
+      toast.success('Inscripcion creada con exito');
     }
   }, [data]);
 
