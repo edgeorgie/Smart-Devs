@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { PROYECTOS } from 'graphql/proyectos/queries';
 import DropDown from 'components/Dropdown';
+//import Input from 'components/Input';
 import { Dialog } from '@mui/material';
 import { Enum_EstadoProyecto } from 'utils/enums';
 import ButtonLoading from 'components/ButtonLoading';
@@ -17,9 +18,10 @@ import {
   AccordionSummaryStyled,
   AccordionDetailsStyled,
 } from 'components/Accordion';
+//import ReactLoading from 'react-loading';
 
 const IndexProyectos = () => {
-  const { data: queryData, loading, error } = useQuery(PROYECTOS);
+  const { data: queryData, loading } = useQuery(PROYECTOS);
 
   useEffect(() => {
     console.log('datos proyecto', queryData);
@@ -35,7 +37,8 @@ const IndexProyectos = () => {
         </div>
         <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
           <div className='my-2 self-end'>
-            <button className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400'>
+            <button type='button'
+            className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400'>
               <Link to='/proyectos/nuevo'>Crear nuevo proyecto</Link>
             </button>
           </div>
@@ -64,12 +67,14 @@ const AccordionProyecto = ({ proyecto }) => {
         </AccordionSummaryStyled>
         <AccordionDetailsStyled>
           <PrivateComponent roleList={['ADMINISTRADOR']}>
-            <i
-              className='mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400'
+          <button
+              type='button'
               onClick={() => {
                 setShowDialog(true);
               }}
-            />
+            >
+            <i className='mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400'/>
+            </button>
           </PrivateComponent>
           <PrivateComponent roleList={['ESTUDIANTE']}>
             <InscripcionProyecto
@@ -100,7 +105,7 @@ const AccordionProyecto = ({ proyecto }) => {
 
 const FormEditProyecto = ({ _id }) => {
   const { form, formData, updateFormData } = useFormData();
-  const [editarProyecto, { data: dataMutation, loading, error }] = useMutation(EDITAR_PROYECTO);
+  const [editarProyecto, { data: dataMutation, loading }] = useMutation(EDITAR_PROYECTO);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -146,7 +151,7 @@ const Objetivo = ({ tipo, descripcion }) => {
 
 const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
   const [estadoInscripcion, setEstadoInscripcion] = useState('');
-  const [crearInscripcion, { data, loading, error }] = useMutation(CREAR_INSCRIPCION);
+  const [crearInscripcion, { data, loading }] = useMutation(CREAR_INSCRIPCION);
   const { userData } = useUser();
 
   useEffect(() => {
@@ -172,7 +177,17 @@ const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
   return (
     <>
       {estadoInscripcion !== '' ? (
+        <div className='flex flex-col items-start'>
         <span>Ya estas inscrito en este proyecto y el estado es {estadoInscripcion}</span>
+        {estadoInscripcion === 'ACEPTADO' && (
+          <Link
+            to={`/avances/${idProyecto}`}
+            className='bg-yellow-700 p-2 rounded-lg text-white my-2 hover:bg-yellow-500'
+          >
+            Agregar Avance
+          </Link>
+        )}
+      </div>
       ) : (
         <ButtonLoading
           onClick={() => confirmarInscripcion()}
