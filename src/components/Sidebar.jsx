@@ -12,10 +12,11 @@ const SidebarLinks = () => (
       <SidebarRoute to="/usuarios" title="Usuarios" icon="fas fa-user" />
     </PrivateComponent>
     <SidebarRoute to="/proyectos" title="Proyectos" icon="fas fa-smile-wink" />
+    <SidebarRoute to='/avances' title='Avances' icon='fas fa-book-open' />
     <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
       <SidebarRoute
         to="/inscripciones"
-        title="Aprobacion Inscripciones"
+        title="Inscripciones"
         icon="fas fa-users"
       />
     </PrivateComponent>
@@ -49,7 +50,7 @@ const Logo = () => (
   <div className="py-3 w-full flex flex-col items-center justify-center">
     <img src="logo.png" alt="Logo" className="h-16" />
     <span className="my-2 text-xl font-bold text-center">
-      Título de Mi Aplicación
+      SIGPI
     </span>
   </div>
 );
