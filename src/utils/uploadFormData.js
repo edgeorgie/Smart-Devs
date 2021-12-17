@@ -9,20 +9,19 @@ const uploadFormData = async (formData) => {
       ) {
         const dt = new FormData();
         dt.append("file", formDataCopy[field]);
-        dt.append("upload_preset", "vs8gsai6");
-        dt.append("cloud_name", "danyel117");
+        dt.append("upload_preset", "klxbskrc");
+        dt.append("cloud_name", "smartdevs");
         const options = {
           method: "POST",
-          url: "https://api.cloudinary.com/v1_1/danyel117/image/upload",
+          url: "https://api.cloudinary.com/v1_1/smartdevs/image/upload",
           data: dt
         };
         await axios.request(options).then((response) => {
           formDataCopy[field] = response.data.url;
+        })
+        .catch((error) => {
+          console.error('err', error);
         });
-        // Falta captura de error del request
-        // .catch((error) => {
-        //   console.error('err', error);
-        // });
       }
     })
   );
