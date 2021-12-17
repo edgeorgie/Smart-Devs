@@ -16,7 +16,7 @@ const SidebarLinks = () => (
     <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
       <SidebarRoute
         to="/inscripciones"
-        title="Aprobacion Inscripciones"
+        title="Inscripciones"
         icon="fas fa-users"
       />
     </PrivateComponent>
