@@ -1,0 +1,40 @@
+
+
+
+.index{
+    background-image: url(../Img/fondo1.jpg);
+}
+
+
+.titulo{
+	background: #050947;
+	color: white;
+	padding: 20px;
+    font-size:30px;
+	
+}
+
+.carrusel{
+	
+    width: 90%;
+    height: 90%;
+	background: transparent;
+	padding: 30px;
+	margin: auto;
+	margin-top:10px;
+	border-radius: 10px;
+	color: white;
+}
+
+
+.body{
+
+    
+	background: #071d5a;
+	padding: 30px;
+	margin: auto;
+	margin-top:10px;
+	border-radius: 10px;
+	color: white;
+
+}
