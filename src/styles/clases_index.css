@@ -30,11 +30,13 @@
 .body{
 
     
-	background: #071d5a;
-	padding: 30px;
-	margin: auto;
-	margin-top:10px;
-	border-radius: 10px;
+	background: #c49adfcb;
+	padding: 10px;
+	margin-left: 80px;
+	margin-right: 80px;
+	margin-top:15px;
+	border-radius: 20px;
 	color: white;
-
+	
+	padding-left: 20px;
 }

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 const PROYECTOS = gql`
   query Proyectos {
@@ -7,6 +7,7 @@ const PROYECTOS = gql`
       nombre
       estado
       objetivos {
+        _id
         descripcion
         tipo
       }
