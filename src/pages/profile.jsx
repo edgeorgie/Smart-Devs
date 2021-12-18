@@ -94,7 +94,7 @@ const Profile = () => {
           </div>
         ) : (
           <div>
-            <Input label="Foto" name="foto" type="file" required />
+            <Input label="Foto" name="foto" type="file" />
             <button
               type="button"
               onClick={() => setEditFoto(false)}
