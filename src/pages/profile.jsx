@@ -36,7 +36,7 @@ const Profile = () => {
       refetch();
     }
   }, [dataMutation]);
-
+  
   const submitForm = async (e) => {
     e.preventDefault();
 
