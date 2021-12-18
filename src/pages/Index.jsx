@@ -1,4 +1,5 @@
 import React from 'react';
+import Carrusel from "components/Carrousel";
 
 import '../styles/clases_index.css'
 

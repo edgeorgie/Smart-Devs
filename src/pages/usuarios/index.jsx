@@ -19,11 +19,7 @@ const IndexUsuarios = () => {
   if (loading) return <div>Cargando....</div>;
 
   return (
-<<<<<<< HEAD
     <PrivateRoute roleList={['ADMINISTRADOR', 'LIDER']}>
-=======
-    <PrivateRoute roleList={["ADMINISTRADOR"]}>
->>>>>>> 1da989db537a1c2fd7d2ede0f434b82a774593f1
       <div>
         Datos Usuarios:
         <table className="tabla">
