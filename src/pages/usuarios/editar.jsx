@@ -24,14 +24,9 @@ const EditarUsuario = () => {
 
   const [
     editarUsuario,
-<<<<<<< HEAD
     { data: mutationData, loading: mutationLoading, error: mutationError },
   ] =
     useMutation(EDITAR_USUARIO);
-=======
-    { data: mutationData, loading: mutationLoading, error: mutationError }
-  ] = useMutation(EDITAR_USUARIO);
->>>>>>> 1da989db537a1c2fd7d2ede0f434b82a774593f1
 
   const submitForm = (e) => {
     e.preventDefault();
