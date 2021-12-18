@@ -1,31 +1,8 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
-import { PROYECTOS } from 'graphql/proyectos/queries';
-import DropDown from 'components/Dropdown';
-//import Input from 'components/Input';
-import { Dialog } from '@mui/material';
-import { Enum_EstadoProyecto } from 'utils/enums';
-import ButtonLoading from 'components/ButtonLoading';
-import { EDITAR_PROYECTO } from 'graphql/proyectos/mutations';
-import useFormData from 'hooks/useFormData';
-import PrivateComponent from 'components/PrivateComponent';
-import { Link } from 'react-router-dom';
-import { CREAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
-import { useUser } from 'context/userContext';
-import { toast } from 'react-toastify';
-import {
-  AccordionStyled,
-  AccordionSummaryStyled,
-  AccordionDetailsStyled,
-} from 'components/Accordion';
-//import ReactLoading from 'react-loading';
-=======
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { PROYECTOS } from "graphql/proyectos/queries";
 import DropDown from "components/Dropdown";
-import Input from "components/Input";
+//import Input from 'components/Input';
 import { Dialog } from "@mui/material";
 import { Enum_EstadoProyecto } from "utils/enums";
 import ButtonLoading from "components/ButtonLoading";
@@ -41,11 +18,7 @@ import {
   AccordionSummaryStyled,
   AccordionDetailsStyled
 } from "components/Accordion";
-import { ELIMINAR_OBJETIVO } from "graphql/proyectos/mutations";
-import ReactLoading from "react-loading";
-import { Enum_TipoObjetivo } from "utils/enums";
-import { EDITAR_OBJETIVO } from "graphql/proyectos/mutations";
->>>>>>> 1da989db537a1c2fd7d2ede0f434b82a774593f1
+//import ReactLoading from 'react-loading';
 
 const IndexProyectos = () => {
   const { data: queryData, loading } = useQuery(PROYECTOS);
@@ -64,18 +37,13 @@ const IndexProyectos = () => {
             Lista de Proyectos
           </h1>
         </div>
-<<<<<<< HEAD
-        <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
-          <div className='my-2 self-end'>
-            <button type='button'
-            className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400'>
-              <Link to='/proyectos/nuevo'>Crear nuevo proyecto</Link>
-=======
         <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
           <div className="my-2 self-end">
-            <button className="bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400">
+            <button
+              type="button"
+              className="bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400"
+            >
               <Link to="/proyectos/nuevo">Crear nuevo proyecto</Link>
->>>>>>> 1da989db537a1c2fd7d2ede0f434b82a774593f1
             </button>
           </div>
         </PrivateComponent>
@@ -104,20 +72,14 @@ const AccordionProyecto = ({ proyecto }) => {
           </div>
         </AccordionSummaryStyled>
         <AccordionDetailsStyled>
-<<<<<<< HEAD
-          <PrivateComponent roleList={['ADMINISTRADOR']}>
-          <button
-              type='button'
-=======
           <PrivateComponent roleList={["ADMINISTRADOR"]}>
-            <i
-              className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
->>>>>>> 1da989db537a1c2fd7d2ede0f434b82a774593f1
+            <button
+              type="button"
               onClick={() => {
                 setShowDialog(true);
               }}
             >
-            <i className='mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400'/>
+              <i className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400" />
             </button>
           </PrivateComponent>
           <PrivateComponent roleList={["ESTUDIANTE"]}>
@@ -129,12 +91,9 @@ const AccordionProyecto = ({ proyecto }) => {
           </PrivateComponent>
           <div>Liderado Por: {proyecto.lider.correo}</div>
           <div className="flex">
-            {proyecto.objetivos.map((objetivo, index) => {
+            {proyecto.objetivos.map((objetivo) => {
               return (
                 <Objetivo
-                  index={index}
-                  _id={objetivo._id}
-                  idProyecto={proyecto._id}
                   tipo={objetivo.tipo}
                   descripcion={objetivo.descripcion}
                 />
@@ -157,12 +116,8 @@ const AccordionProyecto = ({ proyecto }) => {
 
 const FormEditProyecto = ({ _id }) => {
   const { form, formData, updateFormData } = useFormData();
-<<<<<<< HEAD
-  const [editarProyecto, { data: dataMutation, loading }] = useMutation(EDITAR_PROYECTO);
-=======
-  const [editarProyecto, { data: dataMutation, loading, error }] =
+  const [editarProyecto, { data: dataMutation, loading }] =
     useMutation(EDITAR_PROYECTO);
->>>>>>> 1da989db537a1c2fd7d2ede0f434b82a774593f1
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -198,136 +153,21 @@ const FormEditProyecto = ({ _id }) => {
   );
 };
 
-const Objetivo = ({ index, _id, idProyecto, tipo, descripcion }) => {
-  const [showEditDialog, setShowEditDialog] = useState(false);
-  const [
-    eliminarObjetivo,
-    { data: dataMutationEliminar, loading: eliminarLoading }
-  ] = useMutation(ELIMINAR_OBJETIVO, {
-    refetchQueries: [{ query: PROYECTOS }]
-  });
-
-  useEffect(() => {
-    console.log("eliminar objetivo:", dataMutationEliminar);
-    if (dataMutationEliminar) {
-      toast.success("objetivo eliminado satisfactoriamente");
-    }
-  }, [dataMutationEliminar]);
-
-  const ejecutarEliminacion = () => {
-    eliminarObjetivo({ variables: { idProyecto, idObjetivo: _id } });
-  };
-
-  if (eliminarLoading)
-    return (
-      <ReactLoading
-        data-testid="loading-in-button"
-        type="spin"
-        height={100}
-        width={100}
-      />
-    );
+const Objetivo = ({ tipo, descripcion }) => {
   return (
     <div className="mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col items-center justify-center shadow-xl">
       <div className="text-lg font-bold">{tipo}</div>
       <div>{descripcion}</div>
-      <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
-        <div className="flex my-2">
-          <i
-            onClick={() => setShowEditDialog(true)}
-            className="fas fa-pen mx-2 text-yellow-500 hover:text-yellow-200 cursor-pointer"
-          />
-          <i
-            onClick={ejecutarEliminacion}
-            className="fas fa-trash mx-2 text-red-500 hover:text-red-200 cursor-pointer"
-          />
-        </div>
-        <Dialog open={showEditDialog} onClose={() => setShowEditDialog(false)}>
-          <EditarObjetivo
-            descripcion={descripcion}
-            tipo={tipo}
-            index={index}
-            idProyecto={idProyecto}
-            setShowEditDialog={setShowEditDialog}
-          />
-        </Dialog>
+      <PrivateComponent roleList={["ADMINISTRADOR"]}>
+        <div>Editar</div>
       </PrivateComponent>
     </div>
   );
 };
 
-const EditarObjetivo = ({
-  descripcion,
-  tipo,
-  index,
-  idProyecto,
-  setShowEditDialog
-}) => {
-  const { form, formData, updateFormData } = useFormData();
-
-  const [editarObjetivo, { data: dataMutation, loading }] = useMutation(
-    EDITAR_OBJETIVO,
-    {
-      refetchQueries: [{ query: PROYECTOS }]
-    }
-  );
-
-  useEffect(() => {
-    if (dataMutation) {
-      toast.success("Objetivo editado con exito");
-      setShowEditDialog(false);
-    }
-  }, [dataMutation, setShowEditDialog]);
-
-  const submitForm = (e) => {
-    e.preventDefault();
-    editarObjetivo({
-      variables: {
-        idProyecto,
-        indexObjetivo: index,
-        campos: formData
-      }
-    }).catch((e) => {
-      console.log(e);
-      toast.error("Error editando el objetivo");
-    });
-  };
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold text-gray-900">Editar Objetivo</h1>
-      <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
-        <DropDown
-          label="Tipo de Objetivo"
-          name="tipo"
-          required={true}
-          options={Enum_TipoObjetivo}
-          defaultValue={tipo}
-        />
-        <Input
-          label="Descripcion del objetivo"
-          name="descripcion"
-          required={true}
-          defaultValue={descripcion}
-        />
-        <ButtonLoading
-          text="Confirmar"
-          disabled={Object.keys(formData).length === 0}
-          loading={loading}
-        />
-      </form>
-    </div>
-  );
-};
-
 const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
-<<<<<<< HEAD
-  const [estadoInscripcion, setEstadoInscripcion] = useState('');
-  const [crearInscripcion, { data, loading }] = useMutation(CREAR_INSCRIPCION);
-=======
   const [estadoInscripcion, setEstadoInscripcion] = useState("");
-  const [crearInscripcion, { data, loading, error }] =
-    useMutation(CREAR_INSCRIPCION);
->>>>>>> 1da989db537a1c2fd7d2ede0f434b82a774593f1
+  const [crearInscripcion, { data, loading }] = useMutation(CREAR_INSCRIPCION);
   const { userData } = useUser();
 
   useEffect(() => {
@@ -344,7 +184,7 @@ const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
   useEffect(() => {
     if (data) {
       console.log(data);
-      toast.success("inscripcion creada con exito");
+      toast.success("Inscripcion creada con exito");
     }
   }, [data]);
 
@@ -356,25 +196,21 @@ const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
 
   return (
     <>
-<<<<<<< HEAD
-      {estadoInscripcion !== '' ? (
-        <div className='flex flex-col items-start'>
-        <span>Ya estas inscrito en este proyecto y el estado es {estadoInscripcion}</span>
-        {estadoInscripcion === 'ACEPTADO' && (
-          <Link
-            to={`/avances/${idProyecto}`}
-            className='bg-yellow-700 p-2 rounded-lg text-white my-2 hover:bg-yellow-500'
-          >
-            Agregar Avance
-          </Link>
-        )}
-      </div>
-=======
       {estadoInscripcion !== "" ? (
-        <span>
-          Ya estas inscrito en este proyecto y el estado es {estadoInscripcion}
-        </span>
->>>>>>> 1da989db537a1c2fd7d2ede0f434b82a774593f1
+        <div className="flex flex-col items-start">
+          <span>
+            Ya estas inscrito en este proyecto y el estado es{" "}
+            {estadoInscripcion}
+          </span>
+          {estadoInscripcion === "ACEPTADO" && (
+            <Link
+              to={`/avances/${idProyecto}`}
+              className="bg-yellow-700 p-2 rounded-lg text-white my-2 hover:bg-yellow-500"
+            >
+              Agregar Avance
+            </Link>
+          )}
+        </div>
       ) : (
         <ButtonLoading
           onClick={() => confirmarInscripcion()}
