@@ -29,13 +29,8 @@ import Profile from "pages/profile";
 // import PrivateRoute from 'components/PrivateRoute';
 
 const httpLink = createHttpLink({
-<<<<<<< HEAD
-  uri: "https://smartdevs-backend.herokuapp.com/graphql"
-  // uri: "http://localhost:4000/graphql"
-=======
   //uri: "https://smartdevs-backend.herokuapp.com/graphql"
   uri: 'http://localhost:4000/graphql',
->>>>>>> development
 });
 
 const authLink = setContext((_, { headers }) => {
