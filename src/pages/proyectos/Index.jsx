@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { PROYECTOS } from "graphql/proyectos/queries";
-import DropDown from "components/Dropdown";
-//import Input from 'components/Input';
-import { Dialog } from "@mui/material";
-import { Enum_EstadoProyecto } from "utils/enums";
-import ButtonLoading from "components/ButtonLoading";
-import { EDITAR_PROYECTO } from "graphql/proyectos/mutations";
-import useFormData from "hooks/useFormData";
-import PrivateComponent from "components/PrivateComponent";
-import { Link } from "react-router-dom";
-import { CREAR_INSCRIPCION } from "graphql/inscripciones/mutaciones";
-import { useUser } from "context/userContext";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import { PROYECTOS } from 'graphql/proyectos/queries';
+import DropDown from 'components/Dropdown';
+import { Dialog } from '@mui/material';
+import { Enum_EstadoProyecto } from 'utils/enums';
+import { Enum_FaseProyecto } from "utils/enums";
+import ButtonLoading from 'components/ButtonLoading';
+import { EDITAR_PROYECTO } from 'graphql/proyectos/mutations';
+import useFormData from 'hooks/useFormData';
+import PrivateComponent from 'components/PrivateComponent';
+import { Link } from 'react-router-dom';
+import { CREAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
+import { useUser } from 'context/userContext';
+import { toast } from 'react-toastify';
 import {
   AccordionStyled,
   AccordionSummaryStyled,
@@ -62,12 +62,10 @@ const AccordionProyecto = ({ proyecto }) => {
   return (
     <>
       <AccordionStyled>
-        <AccordionSummaryStyled
-          expandIcon={<i className="fas fa-chevron-down" />}
-        >
-          <div className="flex w-full justify-between">
-            <div className="uppercase font-bold text-gray-100 ">
-              {proyecto.nombre} - {proyecto.estado}
+        <AccordionSummaryStyled expandIcon={<i className='fas fa-chevron-down' />}>
+          <div className='flex w-full justify-between'>
+            <div className='uppercase font-bold text-gray-100 '>
+              {proyecto.nombre} - {proyecto.estado} - {proyecto.fase}
             </div>
           </div>
         </AccordionSummaryStyled>
@@ -146,6 +144,11 @@ const FormEditProyecto = ({ _id }) => {
           label="Estado del Proyecto"
           name="estado"
           options={Enum_EstadoProyecto}
+        />
+        <DropDown
+          label="Fase del Proyecto"
+          name="fase"
+          options={Enum_FaseProyecto}
         />
         <ButtonLoading disabled={false} loading={loading} text="Confirmar" />
       </form>
