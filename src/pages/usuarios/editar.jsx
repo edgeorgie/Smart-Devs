@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 import { EDITAR_USUARIO } from 'graphql/usuarios/mutations';
 import DropDown from 'components/Dropdown';
 import { Enum_EstadoUsuario } from 'utils/enums';
+import PrivateComponent from 'components/PrivateComponent';
+import { Enum_EstadoEstudiante } from 'utils/enums';
 
 const EditarUsuario = () => {
   const { form, formData, updateFormData } = useFormData(null);
@@ -53,57 +55,70 @@ const EditarUsuario = () => {
   if (queryLoading) return <div>Cargando....</div>;
 
   return (
-    <div className='flew flex-col w-full h-full items-center justify-center p-10'>
-      <Link to='/usuarios'>
-        <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
+    <div className="flew flex-col w-full h-full items-center justify-center p-10">
+      <Link to="/usuarios">
+        <i className="fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900" />
       </Link>
-      <h1 className='m-4 text-3xl text-gray-800 font-bold text-center'>Editar Usuario</h1>
+      <h1 className="m-4 text-3xl text-gray-800 font-bold text-center">
+        Editar Usuario
+      </h1>
       <form
         onSubmit={submitForm}
         onChange={updateFormData}
         ref={form}
-        className='flex flex-col items-center justify-center'
+        className="flex flex-col items-center justify-center"
       >
         <Input
-          label='Nombre de la persona:'
-          type='text'
-          name='nombre'
+          label="Nombre de la persona:"
+          type="text"
+          name="nombre"
           defaultValue={queryData.Usuario.nombre}
           required={true}
         />
         <Input
-          label='Apellido de la persona:'
-          type='text'
-          name='apellido'
+          label="Apellido de la persona:"
+          type="text"
+          name="apellido"
           defaultValue={queryData.Usuario.apellido}
           required={true}
         />
         <Input
-          label='Correo de la persona:'
-          type='email'
-          name='correo'
+          label="Correo de la persona:"
+          type="email"
+          name="correo"
           defaultValue={queryData.Usuario.correo}
           required={true}
         />
         <Input
-          label='Identificación de la persona:'
-          type='text'
-          name='identificacion'
+          label="Identificación de la persona:"
+          type="text"
+          name="identificacion"
           defaultValue={queryData.Usuario.identificacion}
           required={true}
         />
-        <DropDown
-          label='Estado de la persona:'
-          name='estado'
-          defaultValue={queryData.Usuario.estado}
-          required={true}
-          options={Enum_EstadoUsuario}
-        />
+        <PrivateComponent roleList={["ADMINISTRADOR"]}>
+          <DropDown
+            label="Estado de la persona:"
+            name="estado"
+            defaultValue={queryData.Usuario.estado}
+            required={true}
+            options={Enum_EstadoUsuario}
+          />
+        </PrivateComponent>
+        <PrivateComponent roleList={["LIDER"]}>
+          <DropDown
+            label="Estado de la persona:"
+            name="estado"
+            defaultValue={queryData.Usuario.estado}
+            required={true}
+            options={Enum_EstadoEstudiante}
+          />
+        </PrivateComponent>
         <span>Rol del usuario: {queryData.Usuario.rol}</span>
         <ButtonLoading
           disabled={Object.keys(formData).length === 0}
           loading={mutationLoading}
-          text='Confirmar'
+          text="Confirmar"
         />
       </form>
     </div>

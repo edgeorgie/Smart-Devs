@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 const Profile = () => {
   const { form, formData, updateFormData } = useFormData();
-  const { userData, setUserData } = useUser();
+  const { userData } = useUser();
 
   // falta capturar error de mutacion
   const [editarPerfil, { data: dataMutation, loading: loadingMutation }] =
@@ -36,8 +36,6 @@ const Profile = () => {
   
   const submitForm = async (e) => {
     e.preventDefault();
-
-    const formUploaded = await updateFormData(formData);
 
     editarPerfil({
       variables: {
