@@ -6,6 +6,7 @@ const PROYECTOS = gql`
       _id
       nombre
       estado
+      fase
       objetivos {
         descripcion
         tipo

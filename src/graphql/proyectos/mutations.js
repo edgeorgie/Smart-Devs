@@ -5,6 +5,7 @@ const EDITAR_PROYECTO = gql`
     editarProyecto(_id: $_id, campos: $campos) {
       _id
       estado
+      fase
     }
   }
 `;
