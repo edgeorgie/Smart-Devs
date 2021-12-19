@@ -4,6 +4,7 @@ import { PROYECTOS } from 'graphql/proyectos/queries';
 import DropDown from 'components/Dropdown';
 import { Dialog } from '@mui/material';
 import { Enum_EstadoProyecto } from 'utils/enums';
+import { Enum_FaseProyecto } from "utils/enums";
 import ButtonLoading from 'components/ButtonLoading';
 import { EDITAR_PROYECTO } from 'graphql/proyectos/mutations';
 import useFormData from 'hooks/useFormData';
@@ -19,7 +20,7 @@ import {
 } from 'components/Accordion';
 
 const IndexProyectos = () => {
-  const { data: queryData, loading, error } = useQuery(PROYECTOS);
+  const { data: queryData, loading } = useQuery(PROYECTOS);
 
   useEffect(() => {
     console.log('datos proyecto', queryData);
@@ -58,7 +59,7 @@ const AccordionProyecto = ({ proyecto }) => {
         <AccordionSummaryStyled expandIcon={<i className='fas fa-chevron-down' />}>
           <div className='flex w-full justify-between'>
             <div className='uppercase font-bold text-gray-100 '>
-              {proyecto.nombre} - {proyecto.estado}
+              {proyecto.nombre} - {proyecto.estado} - {proyecto.fase}
             </div>
           </div>
         </AccordionSummaryStyled>
@@ -117,16 +118,25 @@ const FormEditProyecto = ({ _id }) => {
   }, [dataMutation]);
 
   return (
-    <div className='p-4'>
-      <h1 className='font-bold'>Modificar Estado del Proyecto</h1>
+    <div className="p-4">
+      <h1 className="font-bold">Modificar Estado del Proyecto</h1>
       <form
         ref={form}
         onChange={updateFormData}
         onSubmit={submitForm}
-        className='flex flex-col items-center'
+        className="flex flex-col items-center"
       >
-        <DropDown label='Estado del Proyecto' name='estado' options={Enum_EstadoProyecto} />
-        <ButtonLoading disabled={false} loading={loading} text='Confirmar' />
+        <DropDown
+          label="Estado del Proyecto"
+          name="estado"
+          options={Enum_EstadoProyecto}
+        />
+        <DropDown
+          label="Fase del Proyecto"
+          name="fase"
+          options={Enum_FaseProyecto}
+        />
+        <ButtonLoading disabled={false} loading={loading} text="Confirmar" />
       </form>
     </div>
   );
