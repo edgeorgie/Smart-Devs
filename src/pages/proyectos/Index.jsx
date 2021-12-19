@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { PROYECTOS } from 'graphql/proyectos/queries';
@@ -13,31 +14,54 @@ import { Link } from 'react-router-dom';
 import { CREAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
 import { useUser } from 'context/userContext';
 import { toast } from 'react-toastify';
+=======
+import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { PROYECTOS } from "graphql/proyectos/queries";
+import DropDown from "components/Dropdown";
+//import Input from 'components/Input';
+import { Dialog } from "@mui/material";
+import { Enum_EstadoProyecto } from "utils/enums";
+import ButtonLoading from "components/ButtonLoading";
+import { EDITAR_PROYECTO } from "graphql/proyectos/mutations";
+import useFormData from "hooks/useFormData";
+import PrivateComponent from "components/PrivateComponent";
+import { Link } from "react-router-dom";
+import { CREAR_INSCRIPCION } from "graphql/inscripciones/mutaciones";
+import { useUser } from "context/userContext";
+import { toast } from "react-toastify";
+>>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
 import {
   AccordionStyled,
   AccordionSummaryStyled,
-  AccordionDetailsStyled,
-} from 'components/Accordion';
+  AccordionDetailsStyled
+} from "components/Accordion";
+//import ReactLoading from 'react-loading';
 
 const IndexProyectos = () => {
   const { data: queryData, loading } = useQuery(PROYECTOS);
 
   useEffect(() => {
-    console.log('datos proyecto', queryData);
+    console.log("datos proyecto", queryData);
   }, [queryData]);
 
   if (loading) return <div>Cargando...</div>;
 
   if (queryData.Proyectos) {
     return (
-      <div className='p-10 flex flex-col'>
-        <div className='flex w-full items-center justify-center'>
-          <h1 className='text-2xl font-bold text-gray-900'>Lista de Proyectos</h1>
+      <div className="p-10 flex flex-col">
+        <div className="flex w-full items-center justify-center">
+          <h1 className="text-2xl font-bold text-gray-900">
+            Lista de Proyectos
+          </h1>
         </div>
-        <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
-          <div className='my-2 self-end'>
-            <button className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400'>
-              <Link to='/proyectos/nuevo'>Crear nuevo proyecto</Link>
+        <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
+          <div className="my-2 self-end">
+            <button
+              type="button"
+              className="bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400"
+            >
+              <Link to="/proyectos/nuevo">Crear nuevo proyecto</Link>
             </button>
           </div>
         </PrivateComponent>
@@ -56,23 +80,34 @@ const AccordionProyecto = ({ proyecto }) => {
   return (
     <>
       <AccordionStyled>
+<<<<<<< HEAD
         <AccordionSummaryStyled expandIcon={<i className='fas fa-chevron-down' />}>
           <div className='flex w-full justify-between'>
             <div className='uppercase font-bold text-gray-100 '>
               {proyecto.nombre} - {proyecto.estado} | {proyecto.fase}
+=======
+        <AccordionSummaryStyled
+          expandIcon={<i className="fas fa-chevron-down" />}
+        >
+          <div className="flex w-full justify-between">
+            <div className="uppercase font-bold text-gray-100 ">
+              {proyecto.nombre} - {proyecto.estado}
+>>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
             </div>
           </div>
         </AccordionSummaryStyled>
         <AccordionDetailsStyled>
-          <PrivateComponent roleList={['ADMINISTRADOR']}>
-            <i
-              className='mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400'
+          <PrivateComponent roleList={["ADMINISTRADOR"]}>
+            <button
+              type="button"
               onClick={() => {
                 setShowDialog(true);
               }}
-            />
+            >
+              <i className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400" />
+            </button>
           </PrivateComponent>
-          <PrivateComponent roleList={['ESTUDIANTE']}>
+          <PrivateComponent roleList={["ESTUDIANTE"]}>
             <InscripcionProyecto
               idProyecto={proyecto._id}
               estado={proyecto.estado}
@@ -80,9 +115,14 @@ const AccordionProyecto = ({ proyecto }) => {
             />
           </PrivateComponent>
           <div>Liderado Por: {proyecto.lider.correo}</div>
-          <div className='flex'>
+          <div className="flex">
             {proyecto.objetivos.map((objetivo) => {
-              return <Objetivo tipo={objetivo.tipo} descripcion={objetivo.descripcion} />;
+              return (
+                <Objetivo
+                  tipo={objetivo.tipo}
+                  descripcion={objetivo.descripcion}
+                />
+              );
             })}
           </div>
         </AccordionDetailsStyled>
@@ -101,20 +141,25 @@ const AccordionProyecto = ({ proyecto }) => {
 
 const FormEditProyecto = ({ _id }) => {
   const { form, formData, updateFormData } = useFormData();
+<<<<<<< HEAD
   const [editarProyecto, { data: dataMutation, loading }] = useMutation(EDITAR_PROYECTO);
+=======
+  const [editarProyecto, { data: dataMutation, loading }] =
+    useMutation(EDITAR_PROYECTO);
+>>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
 
   const submitForm = (e) => {
     e.preventDefault();
     editarProyecto({
       variables: {
         _id,
-        campos: formData,
-      },
+        campos: formData
+      }
     });
   };
 
   useEffect(() => {
-    console.log('data mutation', dataMutation);
+    console.log("data mutation", dataMutation);
   }, [dataMutation]);
 
   return (
@@ -131,11 +176,14 @@ const FormEditProyecto = ({ _id }) => {
           name="estado"
           options={Enum_EstadoProyecto}
         />
+<<<<<<< HEAD
         <DropDown
           label="Fase del Proyecto"
           name="fase"
           options={Enum_FaseProyecto}
         />
+=======
+>>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
         <ButtonLoading disabled={false} loading={loading} text="Confirmar" />
       </form>
     </div>
@@ -144,10 +192,10 @@ const FormEditProyecto = ({ _id }) => {
 
 const Objetivo = ({ tipo, descripcion }) => {
   return (
-    <div className='mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col items-center justify-center shadow-xl'>
-      <div className='text-lg font-bold'>{tipo}</div>
+    <div className="mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col items-center justify-center shadow-xl">
+      <div className="text-lg font-bold">{tipo}</div>
       <div>{descripcion}</div>
-      <PrivateComponent roleList={['ADMINISTRADOR']}>
+      <PrivateComponent roleList={["ADMINISTRADOR"]}>
         <div>Editar</div>
       </PrivateComponent>
     </div>
@@ -155,13 +203,19 @@ const Objetivo = ({ tipo, descripcion }) => {
 };
 
 const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
+<<<<<<< HEAD
   const [estadoInscripcion, setEstadoInscripcion] = useState('');
+=======
+  const [estadoInscripcion, setEstadoInscripcion] = useState("");
+>>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
   const [crearInscripcion, { data, loading }] = useMutation(CREAR_INSCRIPCION);
   const { userData } = useUser();
 
   useEffect(() => {
     if (userData && inscripciones) {
-      const flt = inscripciones.filter((el) => el.estudiante._id === userData._id);
+      const flt = inscripciones.filter(
+        (el) => el.estudiante._id === userData._id
+      );
       if (flt.length > 0) {
         setEstadoInscripcion(flt[0].estado);
       }
@@ -171,24 +225,39 @@ const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
   useEffect(() => {
     if (data) {
       console.log(data);
-      toast.success('Inscripcion creada con exito');
+      toast.success("Inscripcion creada con exito");
     }
   }, [data]);
 
   const confirmarInscripcion = () => {
-    crearInscripcion({ variables: { proyecto: idProyecto, estudiante: userData._id } });
+    crearInscripcion({
+      variables: { proyecto: idProyecto, estudiante: userData._id }
+    });
   };
 
   return (
     <>
-      {estadoInscripcion !== '' ? (
-        <span>Ya estas inscrito en este proyecto y el estado es {estadoInscripcion}</span>
+      {estadoInscripcion !== "" ? (
+        <div className="flex flex-col items-start">
+          <span>
+            Ya estas inscrito en este proyecto y el estado es{" "}
+            {estadoInscripcion}
+          </span>
+          {estadoInscripcion === "ACEPTADO" && (
+            <Link
+              to={`/avances/${idProyecto}`}
+              className="bg-yellow-700 p-2 rounded-lg text-white my-2 hover:bg-yellow-500"
+            >
+              Agregar Avance
+            </Link>
+          )}
+        </div>
       ) : (
         <ButtonLoading
           onClick={() => confirmarInscripcion()}
-          disabled={estado === 'INACTIVO'}
+          disabled={estado === "INACTIVO"}
           loading={loading}
-          text='Inscribirme en este proyecto'
+          text="Inscribirme en este proyecto"
         />
       )}
     </>

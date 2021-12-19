@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
@@ -11,6 +12,19 @@ import DropDown from 'components/Dropdown';
 import { Enum_EstadoUsuario } from 'utils/enums';
 import PrivateComponent from 'components/PrivateComponent';
 import { Enum_EstadoEstudiante } from 'utils/enums';
+=======
+import React, { useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useQuery, useMutation } from "@apollo/client";
+import { GET_USUARIO } from "graphql/usuarios/queries";
+import Input from "components/Input";
+import ButtonLoading from "components/ButtonLoading";
+import useFormData from "hooks/useFormData";
+import { toast } from "react-toastify";
+import { EDITAR_USUARIO } from "graphql/usuarios/mutations";
+import DropDown from "components/Dropdown";
+import { Enum_EstadoUsuario } from "utils/enums";
+>>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
 
 const EditarUsuario = () => {
   const { form, formData, updateFormData } = useFormData(null);
@@ -19,36 +33,38 @@ const EditarUsuario = () => {
   const {
     data: queryData,
     error: queryError,
-    loading: queryLoading,
+    loading: queryLoading
   } = useQuery(GET_USUARIO, {
-    variables: { _id },
+    variables: { _id }
   });
 
-
-  const [editarUsuario, { data: mutationData, loading: mutationLoading, error: mutationError }] =
+  const [
+    editarUsuario,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] =
     useMutation(EDITAR_USUARIO);
 
   const submitForm = (e) => {
     e.preventDefault();
     delete formData.rol;
     editarUsuario({
-      variables: { _id, ...formData },
+      variables: { _id, ...formData }
     });
   };
 
   useEffect(() => {
     if (mutationData) {
-      toast.success('Usuario modificado correctamente');
+      toast.success("Usuario modificado correctamente");
     }
   }, [mutationData]);
 
   useEffect(() => {
     if (mutationError) {
-      toast.error('Error modificando el usuario');
+      toast.error("Error modificando el usuario");
     }
 
     if (queryError) {
-      toast.error('Error consultando el usuario');
+      toast.error("Error consultando el usuario");
     }
   }, [queryError, mutationError]);
 
@@ -96,6 +112,7 @@ const EditarUsuario = () => {
           defaultValue={queryData.Usuario.identificacion}
           required={true}
         />
+<<<<<<< HEAD
         <PrivateComponent roleList={["ADMINISTRADOR"]}>
           <DropDown
             label="Estado de la persona:"
@@ -114,6 +131,15 @@ const EditarUsuario = () => {
             options={Enum_EstadoEstudiante}
           />
         </PrivateComponent>
+=======
+        <DropDown
+          label="Estado de la persona:"
+          name="estado"
+          defaultValue={queryData.Usuario.estado}
+          required={true}
+          options={Enum_EstadoUsuario}
+        />
+>>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
         <span>Rol del usuario: {queryData.Usuario.rol}</span>
         <ButtonLoading
           disabled={Object.keys(formData).length === 0}

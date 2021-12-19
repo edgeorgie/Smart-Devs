@@ -1,5 +1,5 @@
 import React from 'react';
-import Carrusel from 'components/Carrousel';
+import Carrusel from "components/Carrousel";
 
 import '../styles/clases_index.css'
 
@@ -13,8 +13,8 @@ const Index = () => {
 
       <div class="body">
       <p>Sobre Nosotros</p>
-       Somos Un Grupo de Estudiantes de MISION TIC 2022 en desarrollo de aplicaciones WEB en temas de React, Graphql, Mongo y demas tecnologias necesarias para crear un aplicativo web que pueda ayudar a gestionar 
-       todos los royectos que los estudiantes crearan durante su periodo del semestre
+        Somos Un Grupo de Estudiantes de MISION TIC 2022 en desarrollo de aplicaciones WEB en temas de React, Graphql, Mongo y demas tecnologias necesarias para crear un aplicativo web que pueda ayudar a gestionar 
+        todos los royectos que los estudiantes crearan durante su periodo del semestre
       </div>
 
 
@@ -30,7 +30,7 @@ const Index = () => {
       </div>
 
       
- 
+
     </div>
   );
 };
