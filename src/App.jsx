@@ -18,12 +18,13 @@ import 'styles/tabla.css';
 import NuevoProyecto from 'pages/proyectos/NuevoProyecto';
 import IndexInscripciones from 'pages/inscripciones';
 import Profile from 'pages/profile';
+import IndexAvance from 'pages/avances';
 
 // import PrivateRoute from 'components/PrivateRoute';
 
 const httpLink = createHttpLink({
-  uri: "https://smartdevs-backend.herokuapp.com/graphql"
-  // uri: "http://localhost:4000/graphql"
+  // uri: "https://smartdevs-backend.herokuapp.com/graphql"
+  uri: "http://localhost:4000/graphql"
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -83,6 +84,8 @@ function App() {
                 <Route path='/perfil' element={<Profile />} />
                 <Route path='/usuarios/editar/:_id' element={<EditarUsuario />} />
                 <Route path='/proyectos' element={<IndexProyectos />} />
+                <Route path='/avances' element={<IndexAvance />} />
+                <Route path='/avances/:projectId' element={<IndexAvance />} />
                 <Route path='/proyectos/nuevo' element={<NuevoProyecto />} />
                 <Route path='/inscripciones' element={<IndexInscripciones />} />
               </Route>

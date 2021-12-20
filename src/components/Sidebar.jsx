@@ -5,15 +5,33 @@ import PrivateComponent from "components/PrivateComponent";
 
 const SidebarLinks = () => {
   return (
-    <ul className='mt-12'>
-      <SidebarRoute to='' title='Inicio' icon='fas fa-fingerprint' />
-      <SidebarRoute to='/perfil' title='Perfil' icon='fas fa-user' />
-      <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
-        <SidebarRoute to='/usuarios' title='Usuarios' icon='fas fa-user' />
+    <ul className="mt-12">
+      <SidebarRoute to="" title="Inicio" icon="fas fa-fingerprint" />
+      
+      <SidebarRoute to="/perfil" title="Perfil" icon="fas fa-user" />
+
+      <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
+        <SidebarRoute
+          to="/usuarios"
+          title="Usuarios"
+          icon="fas fa-user" />
       </PrivateComponent>
-      <SidebarRoute to='/proyectos' title='Proyectos' icon='fas fa-briefcase' />
-      <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
-        <SidebarRoute to='/inscripciones' title='Aprobacion Inscripciones' icon='fas fa-user-check' />
+
+      <SidebarRoute to="/proyectos" title="Proyectos" icon="fas fa-briefcase" />
+
+      <PrivateComponent roleList={["ESTUDIANTE", "LIDER"]}>
+        <SidebarRoute
+          to="/avances"
+          title="Avances"
+          icon="fas fa-user-check" />
+      </PrivateComponent>
+
+      <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
+        <SidebarRoute
+          to="/inscripciones"
+          title="Aprobacion Inscripciones"
+          icon="fas fa-user-check"
+        />
       </PrivateComponent>
       <Logout />
     </ul>

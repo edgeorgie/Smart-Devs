@@ -7,6 +7,7 @@ import useFormData from "hooks/useFormData";
 import { useUser } from "context/userContext";
 import { GET_USUARIO } from "graphql/usuarios/queries";
 import { toast } from "react-toastify";
+import { uploadFormData } from "utils/uploadFormData";
 
 const Profile = () => {
   const { form, formData, updateFormData } = useFormData();
@@ -37,11 +38,11 @@ const Profile = () => {
   const submitForm = async (e) => {
     e.preventDefault();
 
+    const formUploaded = await uploadFormData(formData)
+
     editarPerfil({
-      variables: {
-        _id: userData._id,
-        campos: formData
-      }
+      _id: userData._id,
+      variables: formUploaded
     });
   };
 
