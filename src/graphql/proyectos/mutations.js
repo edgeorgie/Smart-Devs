@@ -36,7 +36,7 @@ const EDITAR_OBJETIVO = gql`
   mutation EditarObjetivo(
     $idProyecto: String!
     $indexObjetivo: Int!
-    $campos: camposObjetivo!
+    $campos: editObjetivo!
   ) {
     editarObjetivo(
       idProyecto: $idProyecto

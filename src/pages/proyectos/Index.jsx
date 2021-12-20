@@ -1,36 +1,19 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { PROYECTOS } from 'graphql/proyectos/queries';
 import DropDown from 'components/Dropdown';
 import { Dialog } from '@mui/material';
-import { Enum_EstadoProyecto } from 'utils/enums';
-import { Enum_FaseProyecto } from "utils/enums";
+import Input from 'components/Input';
+import { Enum_EstadoProyecto, Enum_FaseProyecto, Enum_TipoObjetivo } from "utils/enums";
 import ButtonLoading from 'components/ButtonLoading';
-import { EDITAR_PROYECTO } from 'graphql/proyectos/mutations';
+import { EDITAR_PROYECTO, EDITAR_OBJETIVO, ELIMINAR_OBJETIVO } from 'graphql/proyectos/mutations';
 import useFormData from 'hooks/useFormData';
 import PrivateComponent from 'components/PrivateComponent';
 import { Link } from 'react-router-dom';
 import { CREAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
 import { useUser } from 'context/userContext';
+import ReactLoading from "react-loading";
 import { toast } from 'react-toastify';
-=======
-import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { PROYECTOS } from "graphql/proyectos/queries";
-import DropDown from "components/Dropdown";
-//import Input from 'components/Input';
-import { Dialog } from "@mui/material";
-import { Enum_EstadoProyecto } from "utils/enums";
-import ButtonLoading from "components/ButtonLoading";
-import { EDITAR_PROYECTO } from "graphql/proyectos/mutations";
-import useFormData from "hooks/useFormData";
-import PrivateComponent from "components/PrivateComponent";
-import { Link } from "react-router-dom";
-import { CREAR_INSCRIPCION } from "graphql/inscripciones/mutaciones";
-import { useUser } from "context/userContext";
-import { toast } from "react-toastify";
->>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
 import {
   AccordionStyled,
   AccordionSummaryStyled,
@@ -80,19 +63,10 @@ const AccordionProyecto = ({ proyecto }) => {
   return (
     <>
       <AccordionStyled>
-<<<<<<< HEAD
         <AccordionSummaryStyled expandIcon={<i className='fas fa-chevron-down' />}>
           <div className='flex w-full justify-between'>
             <div className='uppercase font-bold text-gray-100 '>
               {proyecto.nombre} - {proyecto.estado} | {proyecto.fase}
-=======
-        <AccordionSummaryStyled
-          expandIcon={<i className="fas fa-chevron-down" />}
-        >
-          <div className="flex w-full justify-between">
-            <div className="uppercase font-bold text-gray-100 ">
-              {proyecto.nombre} - {proyecto.estado}
->>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
             </div>
           </div>
         </AccordionSummaryStyled>
@@ -116,9 +90,12 @@ const AccordionProyecto = ({ proyecto }) => {
           </PrivateComponent>
           <div>Liderado Por: {proyecto.lider.correo}</div>
           <div className="flex">
-            {proyecto.objetivos.map((objetivo) => {
+            {proyecto.objetivos.map((objetivo, index) => {
               return (
                 <Objetivo
+                  index={index}
+                  _id={objetivo._id}
+                  idProyecto={proyecto._id}
                   tipo={objetivo.tipo}
                   descripcion={objetivo.descripcion}
                 />
@@ -141,12 +118,7 @@ const AccordionProyecto = ({ proyecto }) => {
 
 const FormEditProyecto = ({ _id }) => {
   const { form, formData, updateFormData } = useFormData();
-<<<<<<< HEAD
   const [editarProyecto, { data: dataMutation, loading }] = useMutation(EDITAR_PROYECTO);
-=======
-  const [editarProyecto, { data: dataMutation, loading }] =
-    useMutation(EDITAR_PROYECTO);
->>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -176,38 +148,137 @@ const FormEditProyecto = ({ _id }) => {
           name="estado"
           options={Enum_EstadoProyecto}
         />
-<<<<<<< HEAD
         <DropDown
           label="Fase del Proyecto"
           name="fase"
           options={Enum_FaseProyecto}
         />
-=======
->>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
         <ButtonLoading disabled={false} loading={loading} text="Confirmar" />
       </form>
     </div>
   );
 };
 
-const Objetivo = ({ tipo, descripcion }) => {
+const Objetivo = ({ index, _id, idProyecto, tipo, descripcion }) => {
+
+  const [showEditDialog, setShowEditDialog] = useState(false);
+
+  const [eliminarObjetivo, { data: dataMutationEliminar, loading: eliminarLoading }] = useMutation(ELIMINAR_OBJETIVO, {
+    refetchQueries: [{ query: PROYECTOS }]
+  });
+
+  useEffect(() => {
+    console.log("data mutation eliminar", dataMutationEliminar);
+    if (dataMutationEliminar) {
+      toast.success("Objetivo eliminado");
+    }
+  }, [dataMutationEliminar]);
+
+  const ejecutarEliminacion = () => {
+    eliminarObjetivo({ variables: { idProyecto, idObjetivo: _id } });
+  };
+
+  if (eliminarLoading) return (
+    <ReactLoading
+      data-testid="loading-in-button"
+      type="spin"
+      height={50}
+      width={30}
+    />
+  );
+
   return (
     <div className="mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col items-center justify-center shadow-xl">
       <div className="text-lg font-bold">{tipo}</div>
       <div>{descripcion}</div>
-      <PrivateComponent roleList={["ADMINISTRADOR"]}>
-        <div>Editar</div>
+      <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
+        <div className="flex my-2">
+          <i
+            onClick={() => setShowEditDialog(true)}
+            className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
+          />
+          <i
+            onClick={ejecutarEliminacion}
+            className="mx-4 fas fa-trash text-red-600 hover:text-red-400"
+          />
+        </div>
+        <Dialog open={showEditDialog} onClose={() => setShowEditDialog(false)}>
+          <EditarObjetivo
+            descripcion={descripcion}
+            tipo={tipo} index={index}
+            idProyecto={idProyecto} 
+            setShowEditDialog={setShowEditDialog}
+            />
+        </Dialog>
       </PrivateComponent>
     </div>
   );
 };
 
+const EditarObjetivo = ({
+  descripcion,
+  tipo,
+  index,
+  idProyecto,
+  setShowEditDialog
+}) => {
+  const { form, formData, updateFormData } = useFormData();
+
+  const [editarObjetivo, { data: dataMutation, loading }] = useMutation(
+    EDITAR_OBJETIVO,
+    {
+      refetchQueries: [{ query: PROYECTOS }]
+    }
+  );
+
+  useEffect(() => {
+    if (dataMutation) {
+      toast.success("Objetivo editado con exito");
+      setShowEditDialog(false);
+    }
+  }, [dataMutation, setShowEditDialog]);
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    editarObjetivo({
+      variables: {
+        idProyecto,
+        indexObjetivo: index,
+        campos: formData
+      }
+    }).catch((error) => {
+      toast.error("Error editando el objetivo", error);
+    });
+  };
+  return (
+    <div className="p-4">
+      <h1 className="text-2xl font-bold text-gray-900">Editar Objetivo</h1>
+      <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
+        <DropDown
+          label="Tipo de Objetivo"
+          name="tipo"
+          required
+          options={Enum_TipoObjetivo}
+          defaultValue={tipo}
+        />
+        <Input
+          label="Descripcion del objetivo"
+          name="descripcion"
+          required
+          defaultValue={descripcion}
+        />
+        <ButtonLoading
+          text="Confirmar"
+          disabled={Object.keys(formData).length === 0}
+          loading={loading}
+        />
+      </form>
+    </div>
+  );
+};
+
 const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
-<<<<<<< HEAD
   const [estadoInscripcion, setEstadoInscripcion] = useState('');
-=======
-  const [estadoInscripcion, setEstadoInscripcion] = useState("");
->>>>>>> adea0bf90d9bb3a3a58edbe9771f53016b2dd646
   const [crearInscripcion, { data, loading }] = useMutation(CREAR_INSCRIPCION);
   const { userData } = useUser();
 
