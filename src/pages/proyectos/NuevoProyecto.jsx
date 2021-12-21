@@ -54,7 +54,7 @@ const NuevoProyecto = () => {
   };
 
   if (loading) return <div>...Loading</div>;
-
+  if (error) return console.log("error...", error);
   return (
     <div className="p-10 flex flex-col items-center">
       <div className="self-start">
