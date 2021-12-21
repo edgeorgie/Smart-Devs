@@ -1,14 +1,10 @@
 import { gql } from '@apollo/client';
 
 const EDITAR_AVANCE = gql`
-  mutation EditarAvanceEstudiante($id: String!, $descripcion: String!) {
-    editarAvanceEstudiante(_id: $id, descripcion: $descripcion) {
+  mutation Mutation($_id: String!, $descripcion: String!) {
+    editarAvanceEstudiante(_id: $_id, descripcion: $descripcion) {
       _id
       descripcion
-      fecha
-      observaciones {
-        descripcion
-      }
     }
   }
 `;

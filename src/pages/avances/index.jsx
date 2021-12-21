@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_AVANCES } from 'graphql/avances/queries';
 import { useParams } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { Dialog } from '@mui/material';
 import Input from 'components/Input';
 import ButtonLoading from 'components/ButtonLoading';
 import useFormData from 'hooks/useFormData';
-import { CREAR_AVANCE, CREAR_OBSERVACION } from 'graphql/avances/mutations';
+import { CREAR_AVANCE, EDITAR_AVANCE, CREAR_OBSERVACION } from 'graphql/avances/mutations';
 import { useUser } from 'context/userContext';
 import { toast } from 'react-toastify';
 import PrivateComponent from 'components/PrivateComponent';
@@ -53,6 +53,8 @@ const IndexAvance = () => {
 
 const Avance = ({ avance }) => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openEditarAvance, setOpenEditarAvance] = useState(false);
+  
   return (
     <div className="flex flex-col bg-gray-200 shadow-lg p-3 rounded-xl m-2">
       <span>
@@ -61,18 +63,22 @@ const Avance = ({ avance }) => {
           <button
             type="button"
             onClick={() => {
-              setOpenDialog(true);
+              setOpenEditarAvance(true);
             }}
           >
             <i className="mx-2 fas fa-pen text-yellow-600 hover:text-yellow-400" />
           </button>
           <Dialog
-            open={openDialog}
+            open={openEditarAvance}
             onClose={() => {
-              setOpenDialog(false);
+              setOpenEditarAvance(false);
             }}
           >
-            <EditarAvanceEstudiante _id={avance._id} />
+            <EditarAvanceEstudiante
+              _id={avance._id}
+              descripcion={avance.descripcion}
+              setOpenEditarAvance={setOpenEditarAvance}
+            />
           </Dialog>
         </PrivateComponent>
       </span>
@@ -211,8 +217,70 @@ const CrearAvance = ({ proyecto, setOpenDialog }) => {
   );
 };
 
-const EditarAvanceEstudiante = ({ _id }) => {
-  
+const EditarAvanceEstudiante = ({ _id, descripcion, setOpenEditarAvance }) => {
+
+  const { form, formData, updateFormData } = useFormData();
+  const [editarAvanceEstudiante, { data: dataMutation, loading, error }] =
+    useMutation(EDITAR_AVANCE);
+
+  useEffect(() => {
+    if (dataMutation) {
+      toast.success("Avance editado con exito");// pendiente para agregar y que me muestre los avances
+      setOpenEditarAvance(false);
+    }
+  }, [dataMutation, setOpenEditarAvance]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error('Error editando el avance');
+    }
+  }, [error]);
+
+  const submitForm = (e) => {
+    e.preventDefault();
+
+    console.log("datos a enviar para editar un avance ", formData.descripcion);
+
+    editarAvanceEstudiante({
+      variables: {
+        _id,
+        descripcion: formData.nombre,
+      }
+    });
+  };
+
+  useEffect(() => {
+    // // console.log('data mutation', dataMutation);
+  }, [dataMutation]);
+
+  return (
+
+    <div className='p-4 ' >
+      <h1 className='font-bold'>Editar Avance </h1>
+
+      <form
+        ref={form}
+        onChange={updateFormData}
+        onSubmit={submitForm}
+        action=""
+        className='flex flex-col items-center'>
+        <Input
+          name='nombre'
+          label='Descripción del avance'
+          required={true}
+          type='text'
+          defaultValue={descripcion} 
+          
+          />
+
+        <ButtonLoading disabled={false} loading={loading} text='Confirmar' />
+
+      </form>
+
+    </div>
+
+  )
 }
+
 
 export default IndexAvance;
