@@ -101,12 +101,6 @@ const Avance = ({ avance }) => {
                   <span>
                     {index + 1}. {obs}
                   </span>
-                  <PrivateComponent roleList={["LIDER"]}>
-                    <div className="flex items-end justify-center my-2">
-                      <i className="fas fa-pen mx-2" />
-                      <i className="fas fa-trash mx-2" />
-                    </div>
-                  </PrivateComponent>
                 </div>
               );
             })}
