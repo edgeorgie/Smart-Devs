@@ -7,7 +7,6 @@ const EDITAR_AVANCE = gql`
       descripcion
       fecha
       observaciones {
-        _id
         descripcion
       }
     }
@@ -32,18 +31,22 @@ const CREAR_AVANCE = gql`
   }
 `;
 
-const AGREGAR_OBSERVACION = gql`
-  mutation AgregarNuevaObservacion($idAvance: String!, $campos: crearObservacion!) {
-    agregarNuevaObservacion(idAvance: $idAvance, campos: $campos) {
+const CREAR_OBSERVACION = gql`
+  mutation Mutation($_id: String!, $observacion: String!) {
+    crearObservacion(_id: $_id, observacion: $observacion) {
       _id
-      fecha
-      descripcion
-      observaciones {
-        _id
-        descripcion
-      }
+      observaciones
     }
   }
 `;
 
-export { EDITAR_AVANCE, CREAR_AVANCE, AGREGAR_OBSERVACION };
+const EDITAR_OBSERVACION = gql`
+  mutation Mutation($_id: String!, $observacion: String!) {
+    editarObservacion(_id: $_id, observacion: $observacion) {
+      _id
+      observaciones
+    }
+  }
+`;
+
+export { EDITAR_AVANCE, EDITAR_OBSERVACION, CREAR_AVANCE, CREAR_OBSERVACION };
