@@ -15,17 +15,16 @@ import { CREAR_PROYECTO } from 'graphql/proyectos/mutations';
 const NuevoProyecto = () => {
   const { form, formData, updateFormData } = useFormData();
   const [listaUsuarios, setListaUsuarios] = useState({});
-  const { data, loading, error } = useQuery(GET_USUARIOS, {
+  const { data, loading } = useQuery(GET_USUARIOS, {
     variables: {
       filtro: { rol: 'LIDER', estado: 'AUTORIZADO' },
     },
   });
 
-  const [crearProyecto, { data: mutationData, loading: mutationLoading, error: mutationError }] =
+  const [ crearProyecto ] =
     useMutation(CREAR_PROYECTO);
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       const lu = {};
       data.Usuarios.forEach((elemento) => {
@@ -36,9 +35,6 @@ const NuevoProyecto = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    console.log('data mutation', mutationData);
-  });
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -100,14 +96,16 @@ const Objetivos = () => {
       <div>
         <span>Objetivos del Proyecto</span>
         {!maxObjetivos && (
-          <i
-            onClick={() => setListaObjetivos([...listaObjetivos, componenteObjetivoAgregado()])}
-            className='fas fa-plus rounded-full bg-green-500 hover:bg-green-400 text-white p-2 mx-2 cursor-pointer'
+          <button type= 'button' onClick={() => setListaObjetivos([
+            ...listaObjetivos, 
+            componenteObjetivoAgregado(),
+            ])}
+            >
+            <i className='fas fa-plus rounded-full bg-green-500 hover:bg-green-400 text-white p-2 mx-2 cursor-pointer'
           />
+          </button>
         )}
-        {listaObjetivos.map((objetivo) => {
-          return objetivo;
-        })}
+        {listaObjetivos.map((objetivo) => objetivo )}
       </div>
     </ObjContext.Provider>
   );
@@ -129,10 +127,10 @@ const FormObjetivo = ({ id }) => {
         label='Tipo de Objetivo'
         required={true}
       />
-      <i
-        onClick={() => eliminarObjetivo(id)}
-        className='fas fa-minus rounded-full bg-red-500 hover:bg-red-400 text-white p-2 mx-2 cursor-pointer mt-6'
+      <button type='button' onClick={() => eliminarObjetivo(id)}>
+      <i className='fas fa-minus rounded-full bg-red-500 hover:bg-red-400 text-white p-2 mx-2 cursor-pointer mt-6'
       />
+      </button>
     </div>
   );
 };

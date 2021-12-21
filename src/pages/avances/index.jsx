@@ -35,11 +35,11 @@ const IndexAvance = () => {
       >
         Crear nuevo avance
       </button>
-      {/*data.Avances.length === 0 ? (
+      {data.Avances.length === 0 ? (
         <span>No tienes avances para este proyecto</span>
       ) : (
         data.Avances.map((avance) => <Avance avance={avance} />)
-      )*/}
+      )}
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <CrearAvance proyecto={projectid} setOpenDialog={setOpenDialog} />
       </Dialog>
