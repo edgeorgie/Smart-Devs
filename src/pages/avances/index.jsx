@@ -54,16 +54,34 @@ const IndexAvance = () => {
 const Avance = ({ avance }) => {
   const [openDialog, setOpenDialog] = useState(false);
   return (
-    <div className='flex flex-col bg-gray-200 shadow-lg p-3 rounded-xl m-2'>
+    <div className="flex flex-col bg-gray-200 shadow-lg p-3 rounded-xl m-2">
       <span>
         <strong>Avance:</strong> {avance.descripcion}
+        <PrivateComponent roleList={["ESTUDIANTE"]}>
+          <button
+            type="button"
+            onClick={() => {
+              setOpenDialog(true);
+            }}
+          >
+            <i className="mx-2 fas fa-pen text-yellow-600 hover:text-yellow-400" />
+          </button>
+          <Dialog
+            open={openDialog}
+            onClose={() => {
+              setOpenDialog(false);
+            }}
+          >
+            <EditarAvanceEstudiante _id={avance._id} />
+          </Dialog>
+        </PrivateComponent>
       </span>
       <span>
         <strong>Fecha: </strong>
         {avance.fecha}
       </span>
       {/* <span>{avance.observaciones.length === 0 ?'Sin comentarios':}</span> */}
-      <div className='flex  my-4'>
+      <div className="flex  my-4">
         {avance.observaciones.length === 0 ? (
           <span>Sin Observaciones</span>
         ) : (
@@ -72,28 +90,30 @@ const Avance = ({ avance }) => {
               return (
                 <div
                   key={nanoid()}
-                  className='bg-white w-32 m-2 p-2 rounded-lg shadow-lg flex flex-col'
+                  className="bg-white w-32 m-2 p-2 rounded-lg shadow-lg flex flex-col"
                 >
                   <span>
                     {index + 1}. {obs}
                   </span>
-                  <div className='flex items-end justify-center my-2'>
-                    <i className='fas fa-pen mx-2' />
-                    <i className='fas fa-trash mx-2' />
-                  </div>
+                  <PrivateComponent roleList={["LIDER"]}>
+                    <div className="flex items-end justify-center my-2">
+                      <i className="fas fa-pen mx-2" />
+                      <i className="fas fa-trash mx-2" />
+                    </div>
+                  </PrivateComponent>
                 </div>
               );
             })}
           </>
         )}
       </div>
-      <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
+      <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
         <button
           onClick={() => {
             setOpenDialog(true);
           }}
-          className='bg-indigo-500 p-2  my-2 rounded-lg w-48 text-white hover:bg-indigo-700'
-          type='button'
+          className="bg-indigo-500 p-2  my-2 rounded-lg w-48 text-white hover:bg-indigo-700"
+          type="button"
         >
           Agregar observacion
         </button>
@@ -190,5 +210,9 @@ const CrearAvance = ({ proyecto, setOpenDialog }) => {
     </div>
   );
 };
+
+const EditarAvanceEstudiante = ({ _id }) => {
+  
+}
 
 export default IndexAvance;

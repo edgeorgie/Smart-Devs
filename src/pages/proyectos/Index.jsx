@@ -66,7 +66,7 @@ const AccordionProyecto = ({ proyecto }) => {
         <AccordionSummaryStyled expandIcon={<i className='fas fa-chevron-down' />}>
           <div className='flex w-full justify-between'>
             <div className='uppercase font-bold text-gray-100 '>
-              {proyecto.nombre} - {proyecto.estado} | {proyecto.fase}
+              {proyecto.nombre} - {proyecto.estado} - {proyecto.fase}
             </div>
           </div>
         </AccordionSummaryStyled>
