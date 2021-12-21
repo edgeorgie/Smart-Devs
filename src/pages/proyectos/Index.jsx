@@ -90,10 +90,11 @@ const AccordionProyecto = ({ proyecto, refetch }) => {
               inscripciones={proyecto.inscripciones}
             />
           </PrivateComponent>
-          <ButtonLoading disabled={false} loading={false} text='Editar Proyecto' 
-              onClick={() => setMostrarFormEditarProjectRolLider(true)}
-          />
-              
+          <PrivateComponent roleList={["LIDER", "ADMINISTRADOR"]}>
+            <ButtonLoading disabled={false} loading={false} text='Editar Proyecto' 
+                onClick={() => setMostrarFormEditarProjectRolLider(true)}
+            />
+          </PrivateComponent>
           <div>Liderado Por: {proyecto.lider.correo}</div>
           <div className="flex">
             {proyecto.objetivos.map((objetivo, index) => {
