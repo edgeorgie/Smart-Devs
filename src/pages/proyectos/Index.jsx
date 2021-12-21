@@ -19,10 +19,11 @@ import {
   AccordionSummaryStyled,
   AccordionDetailsStyled
 } from "components/Accordion";
+
 //import ReactLoading from 'react-loading';
 
 const IndexProyectos = () => {
-  const { data: queryData, loading } = useQuery(PROYECTOS);
+  const { data: queryData, loading, refetch } = useQuery(PROYECTOS);
 
   useEffect(() => {
     console.log("datos proyecto", queryData);
@@ -49,7 +50,7 @@ const IndexProyectos = () => {
           </div>
         </PrivateComponent>
         {queryData.Proyectos.map((proyecto) => {
-          return <AccordionProyecto proyecto={proyecto} />;
+          return <AccordionProyecto proyecto={proyecto} refetch={refetch} />;
         })}
       </div>
     );
@@ -58,8 +59,9 @@ const IndexProyectos = () => {
   return <></>;
 };
 
-const AccordionProyecto = ({ proyecto }) => {
+const AccordionProyecto = ({ proyecto, refetch }) => {
   const [showDialog, setShowDialog] = useState(false);
+  const [mostrarFormEditarProjectRolLider, setMostrarFormEditarProjectRolLider] = useState(false);
   return (
     <>
       <AccordionStyled>
@@ -88,6 +90,10 @@ const AccordionProyecto = ({ proyecto }) => {
               inscripciones={proyecto.inscripciones}
             />
           </PrivateComponent>
+          <ButtonLoading disabled={false} loading={false} text='Editar Proyecto' 
+              onClick={() => setMostrarFormEditarProjectRolLider(true)}
+          />
+              
           <div>Liderado Por: {proyecto.lider.correo}</div>
           <div className="flex">
             {proyecto.objetivos.map((objetivo, index) => {
@@ -104,6 +110,19 @@ const AccordionProyecto = ({ proyecto }) => {
           </div>
         </AccordionDetailsStyled>
       </AccordionStyled>
+      <Dialog
+        open={mostrarFormEditarProjectRolLider}
+        onClose={() => {
+          setMostrarFormEditarProjectRolLider(false);
+        }}>
+        <FormEditProyectoRolLider 
+          _id={proyecto._id}
+          nombreProyecto={proyecto.nombre}
+          presupuesto={proyecto.presupuesto}
+          refetch={refetch}
+          setMostrarFormEditarProjectRolLider={setMostrarFormEditarProjectRolLider}
+        />
+      </Dialog>
       <Dialog
         open={showDialog}
         onClose={() => {
@@ -158,6 +177,98 @@ const FormEditProyecto = ({ _id }) => {
     </div>
   );
 };
+
+const FormEditProyectoRolLider = ({
+  _id,
+  nombreProyecto,
+  presupuesto,
+  refetch,
+  setMostrarFormEditarProjectRolLider }) => {
+
+  const { form, formData, updateFormData } = useFormData();
+  const [editarProyecto, { data: dataMutation, loading, error }] = useMutation(EDITAR_PROYECTO);
+
+  useEffect(() => {
+      if (dataMutation) {
+          toast.success('Proyecto editado con exito');
+          refetch(); // pendiente para agregar y que me muestre los avances
+          setMostrarFormEditarProjectRolLider(false)
+      }
+  }, [dataMutation,setMostrarFormEditarProjectRolLider])
+
+  useEffect(() => {
+      if (error) {
+          toast.error('Error editando proyecto');
+      }
+  }, [error]);
+
+
+  const submitForm = (e) => {
+      e.preventDefault();
+
+      console.log("datos a enviar para editar un proyecto " ,formData)
+      
+      
+      // if(!formData.presupuesto){
+      //     console.log(formData.presupuesto ,"si soy el null del presupuesto  ")
+      //     console.log(presupuesto ,"soy presupuesto anterior ")
+          
+      //     formData.presupuesto=presupuesto
+          
+      // }
+
+      
+      formData.presupuesto = parseFloat(formData.presupuesto);
+
+      console.log("datos a enviar para editar un proyecto " ,formData)
+
+
+      editarProyecto({
+          variables: {
+            _id,
+            campos: formData,
+          },
+      });
+  };
+
+  useEffect(() => {
+      // // console.log('data mutation', dataMutation);
+  }, [dataMutation]);
+
+  return (
+
+      <div className='p-4 ' >
+          <h1 className='font-bold'>Editar proyecto </h1>
+
+          <form
+              ref={form}
+              onChange={updateFormData}
+              onSubmit={submitForm}
+              action=""
+              className='flex flex-col items-center'>
+              <Input
+                  name='nombre'
+                  label='Nombre del Proyecto'
+                  required={true}
+                  type='text'
+                  defaultValue={nombreProyecto} />
+              <Input
+                  name='presupuesto'
+                  label='Presupuesto del Proyecto'
+                  required={true}
+                  type='number'
+                  defaultValue={presupuesto} />
+
+
+
+              <ButtonLoading disabled={Object.keys(formData).length === 0} loading={loading} text='Confirmar' />
+
+          </form>
+
+      </div>
+
+  )
+}
 
 const Objetivo = ({ index, _id, idProyecto, tipo, descripcion }) => {
 
@@ -324,12 +435,16 @@ const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
           )}
         </div>
       ) : (
-        <ButtonLoading
+        <PrivateComponent roleList={["ESTUDIANTE"]}>
+          <ButtonLoading
           onClick={() => confirmarInscripcion()}
           disabled={estado === "INACTIVO"}
           loading={loading}
           text="Inscribirme en este proyecto"
         />
+        </PrivateComponent>
+        
+        
       )}
     </>
   );
